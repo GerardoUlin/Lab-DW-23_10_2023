@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Compras</title>
+</head>
+<body>
+    <h1>Lista de Compras</h1>
+    
+    <form action="/agregar" method="POST">
+        <label for="nombre">Nombre: </label>
+        <input type="text" name="nombre" required>
+        <label for="cantidad">Cantidad: </label>
+        <input type="number" name="cantidad" required>
+        <label for="realizado">Realizado: </label>
+        <input type="checkbox" name="realizado" value="1">
+        <button type="submit">Agregar</button>
+    </form>
+    
+    <ul>
+        {% for compra in compras %}
+        <li>
+            {{ compra[1] }} - {{ compra[2] }} unidades
+            {% if compra[3] %}
+                - Realizado
+            {% else %}
+                - Pendiente
+            {% endif %}
+            <form action="/borrar/{{ compra[0] }}" method="POST">
+                <button type="submit">Borrar</button>
+            </form>
+            <form action="/actualizar/{{ compra[0] }}" method="POST">
+                <label for="nombre">Nombre: </label>
+                <input type="text" name="nombre" value="{{ compra[1] }}" required>
+                <label for="cantidad">Cantidad: </label>
+                <input type="number" name="cantidad" value="{{ compra[2] }}" required>
+                <label for="realizado">Realizado: </label>
+                <input type="checkbox" name="realizado" value="1" {% if compra[3] %} checked {% endif %}>
+                <button type="submit">Actualizar</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
